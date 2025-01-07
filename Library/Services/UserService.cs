@@ -1,23 +1,43 @@
 ﻿
+using System.Text.Json;
 using Library.Interfaces;
 using Library.Models;
 
 namespace Library.Services;
 
-public class UserService
+public class UserService(IFileService fileService) : IUserService
 {
+    
+    private readonly IFileService _fileService = fileService;
     private List<User> _users = [];
-    private readonly FileService _fileService = new FileService(fileName: "users.json");
 
-    public void Add(User user)
+    public void AddUser(User user)
     {
         _users.Add(user);
-        _fileService.SaveListToFile(_users);
+        SaveContentToFile();
     }
 
-    public IEnumerable<User> GetAll()
+    public void AddUser(User user)
     {
-        _users = _fileService.LoadListFromFile();
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<User> ImportAllUsers()
+    {
         return _users;
+    }
+    public void SaveContentToFile()
+    {
+        var json = JsonSerializer.Serialize(_users);
+        _fileService.SaveContentToFile(json);
+    }
+
+    public void ImportUsers()
+    {
+        var json = _fileService.GetContentFromFile();
+        if (!string.IsNullOrEmpty(json))
+        {
+            _users = JsonSerializer.Deserialize<List<User>>(json)!;
+        }
     }
 }

@@ -3,8 +3,8 @@ using Library.Models;
 
 public interface IUserService
 {
-    void AddContact(User user);
-    IEnumerable<User> GetAllUsers();
+    void AddUser(User user);
+    IEnumerable<User> ImportAllUsers();
 
     
 }
