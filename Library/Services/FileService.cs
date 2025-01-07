@@ -1,6 +1,4 @@
 ﻿
-using System.Diagnostics;
-using System.Text.Json;
 using Library.Interfaces;
 
 namespace Library.Services;
@@ -20,18 +18,18 @@ namespace Library.Services;
     }
 
     public string GetContentFromFile()
-        {
-            if (File.Exists(_filePath))
-                return File.ReadAllText(_filePath);
+    {
+        if (File.Exists(_filePath))
+            return File.ReadAllText(_filePath);
 
-            return null!;
-        }
+        return string.Empty;
+     }
 
-        public void SaveContentToFile(string content)
-        {
-            if (!Directory.Exists(_directoryPath))
-                Directory.CreateDirectory(_directoryPath);
+    public void SaveContentToFile(string content)
+    {
+        if (!Directory.Exists(_directoryPath))
+            Directory.CreateDirectory(_directoryPath);
 
-            File.WriteAllText(_filePath, content);
-        }
+        File.WriteAllText(_filePath, content);
     }
+}
